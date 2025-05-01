@@ -1,0 +1,13 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  name: MyString
+  hashtag: MyString
+  description: MyText
+  last_refreshed_at: 2025-04-30 21:08:19
+
+two:
+  name: MyString
+  hashtag: MyString
+  description: MyText
+  last_refreshed_at: 2025-04-30 21:08:19

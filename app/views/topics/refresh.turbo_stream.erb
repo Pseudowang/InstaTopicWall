@@ -1,0 +1,70 @@
+<%= turbo_stream.replace "posts" do %>
+  <div id="posts" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+    <% if @topic.posts.any? %>
+      <% @topic.posts.order(timestamp: :desc).each do |post| %>
+        <div class="bg-white rounded-lg shadow-md overflow-hidden">
+          <% if post.media_type == "VIDEO" %>
+            <div class="relative pb-[100%]">
+              <video controls class="absolute inset-0 w-full h-full object-cover">
+                <source src="<%= post.media_url %>" type="video/mp4">
+                Your browser does not support the video tag.
+              </video>
+            </div>
+          <% else %>
+            <div class="h-64 bg-gray-100 flex items-center justify-center">
+              <% if post.media_url.present? %>
+                <img src="<%= post.media_url %>" 
+                     alt="Instagram post" 
+                     class="w-full h-full object-cover" 
+                     onerror="this.onerror=null; console.log('图片加载失败:', this.src);">
+              <% else %>
+                <div class="text-gray-400 text-center">
+                  <i class="fas fa-image text-4xl mb-2"></i>
+                  <p>Image not available</p>
+                </div>
+              <% end %>
+            </div>
+          <% end %>
+          
+          <div class="p-4">
+            <div class="flex items-center mb-3">
+              <% if post.profile_picture_url.present? %>
+                <img src="<%= post.profile_picture_url %>" 
+                     alt="<%= post.username %>" 
+                     class="w-8 h-8 rounded-full mr-2"
+                     onerror="this.onerror=null; console.log('头像加载失败:', this.src);">
+              <% else %>
+                <div class="w-8 h-8 rounded-full bg-gray-200 mr-2 flex items-center justify-center">
+                  <span class="text-gray-500 text-xs"><%= post.username[0]&.upcase %></span>
+                </div>
+              <% end %>
+              <span class="font-bold text-sm">@<%= post.username %></span>
+            </div>
+            
+            <p class="text-gray-700 text-sm mb-2 line-clamp-3"><%= post.caption %></p>
+            
+            <div class="flex justify-between items-center text-xs text-gray-500">
+              <span><%= time_ago_in_words(post.timestamp) if post.timestamp.present? %> ago</span>
+              <a href="<%= post.permalink %>" target="_blank" class="text-blue-500 hover:text-blue-700">View on Instagram</a>
+            </div>
+          </div>
+        </div>
+      <% end %>
+    <% else %>
+      <div class="col-span-full text-center py-10">
+        <p class="text-gray-600 text-lg">No posts found for this hashtag yet.</p>
+        <p class="text-gray-500 mt-2">Try refreshing the topic or check if the hashtag is correct.</p>
+      </div>
+    <% end %>
+  </div>
+<% end %>
+
+<%= turbo_stream.replace "timer-last-refreshed" do %>
+  <span id="timer-last-refreshed" data-controller="timer" data-timer-target="lastRefreshed">
+    <% if @topic.last_refreshed_at.present? %>
+      <%= time_ago_in_words(@topic.last_refreshed_at) %> ago
+    <% else %>
+      Just now
+    <% end %>
+  </span>
+<% end %>

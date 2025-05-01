@@ -10,19 +10,57 @@
 
     <%= yield :head %>
 
-    <%# Enable PWA manifest for installable apps (make sure to enable in config/routes.rb too!) %>
-    <%#= tag.link rel: "manifest", href: pwa_manifest_path(format: :json) %>
-
     <link rel="icon" href="/icon.png" type="image/png">
     <link rel="icon" href="/icon.svg" type="image/svg+xml">
     <link rel="apple-touch-icon" href="/icon.png">
-
-    <%# Includes all stylesheet files in app/assets/stylesheets %>
-    <%= stylesheet_link_tag :app, "data-turbo-track": "reload" %>
+    
+    <!-- 只保留一个 stylesheet_link_tag 引用 Tailwind -->
+    <%= stylesheet_link_tag "tailwind", "data-turbo-track": "reload" %>
+    <%= stylesheet_link_tag "application", "data-turbo-track": "reload" %>
+    
+    <!-- 或者使用 CDN 作为临时解决方案 -->
+    <!-- <script src="https://cdn.tailwindcss.com"></script> -->
+    
     <%= javascript_importmap_tags %>
   </head>
 
-  <body>
-    <%= yield %>
+  <body class="bg-gray-100 min-h-screen">
+    <header class="bg-indigo-600 text-white">
+      <div class="container mx-auto px-4 py-4">
+        <div class="flex justify-between items-center">
+          <div>
+            <h1 class="text-2xl font-bold">
+              <%= link_to "Insta Topic Wall", root_path %>
+            </h1>
+          </div>
+          <nav>
+            <ul class="flex space-x-4">
+              <li>
+                <%= link_to "Home", root_path, class: "hover:text-indigo-200" %>
+              </li>
+              <li>
+                <%= link_to "New Topic", new_topic_path, class: "hover:text-indigo-200" %>
+              </li>
+            </ul>
+          </nav>
+        </div>
+      </div>
+    </header>
+
+    <main class="container mx-auto px-4 py-8">
+      <% if notice.present? %>
+        <div class="bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded mb-4" role="alert">
+          <p><%= notice %></p>
+        </div>
+      <% end %>
+      
+      <% if alert.present? %>
+        <div class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded mb-4" role="alert">
+          <p><%= alert %></p>
+        </div>
+      <% end %>
+      
+      <%= yield %>
+    </main>
   </body>
 </html>
