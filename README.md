@@ -1,24 +1,34 @@
-# README
+# InstaTopicWall
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
+InstaTopicWall是一个Rails应用程序，允许用户创建主题并从Instagram获取相关帖子，用于展示和分享.
 
-Things you may want to cover:
 
-* Ruby version
+### 本地使用
 
-* System dependencies
+1. 克隆仓库
+```bash
+git clone https://github.com/yourusername/InstaTopicWall.git
+cd InstaTopicWall
+```
 
-* Configuration
+2. 安装依赖
+```bash
+bundle install
+```
 
-* Database creation
+3. 设置数据库
+```bash
+rails db:create
+rails db:migrate
+```
 
-* Database initialization
+4. 启动服务器
 
-* How to run the test suite
+```bash
 
-* Services (job queues, cache servers, search engines, etc.)
+rails s -b 0.0.0.0 # 仅启动Rails服务器
+```
 
-* Deployment instructions
+5. 访问应用
+打开浏览器访问 `http://localhost:3000`
 
-* ...
