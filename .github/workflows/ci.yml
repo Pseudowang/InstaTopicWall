@@ -92,6 +92,9 @@ jobs:
           ruby-version: .ruby-version
           bundler-cache: true
 
+      - name: Make bin scripts executable
+        run: chmod +x bin/*
+
       - name: Run tests
         env:
           RAILS_ENV: test
