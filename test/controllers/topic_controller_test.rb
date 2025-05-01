@@ -15,7 +15,7 @@ class TopicControllerTest < ActionDispatch::IntegrationTest
     get topic_edit_url
     assert_response :success
   end
-  
+
   test "should get new" do
     get topic_new_url
     assert_response :success
