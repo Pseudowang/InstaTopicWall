@@ -8,7 +8,7 @@ class Post < ApplicationRecord
 
   def timestamp=(value) # 验证时间戳是否有效
     if value.is_a?(String) # 如果是字符串
-      write_attribute(:timestamp, DataTime.parse(value))
+      write_attribute(:timestamp, DateTime.parse(value))
     else
       write_attribute(:timestamp, value) # 不是就直接赋值
     end
