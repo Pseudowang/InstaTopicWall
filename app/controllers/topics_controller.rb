@@ -9,5 +9,4 @@ class TopicsController < ApplicationController
   end
   def new
   end
-
 end
