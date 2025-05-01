@@ -1,9 +1,9 @@
 class TopicsController < ApplicationController
-  before_action :set_topic, only[:show, :edit, :update, :destroy, :refresh]
+  before_action :set_topic, only: [:show, :edit, :update, :destroy, :refresh]
+  
   def index
     # 显示所有话题和新建表单
     @topics = Topic.all.order(created_at: :desc) # 按照创建时间降序排列
-
   end
 
   def show
@@ -17,26 +17,30 @@ class TopicsController < ApplicationController
 
   def create
     @topic = Topic.new(topic_params)
+    
     if @topic.save
-      redirect_to @topic, notice: '话题创建成功！'
+      # 创建成功后立即获取Instagram帖子
+      @topic.refresh_posts
+      redirect_to @topic, notice: '话题创建成功并获取了最新帖子！'
     else
       render :new
     end
   end
 
   def edit
-    # 编辑话题
-    @topic = Topic.find(params[:id])
-    
+    # 编辑话题表单
+    # @topic 已经在 before_action 中设置
   end
 
   def update
     if @topic.update(topic_params)
+      # 更新话题信息后，可以选择性地刷新帖子
+      # 如果标签变更，应该刷新
+      @topic.refresh_posts if @topic.saved_change_to_hashtag?
       redirect_to @topic, notice: '话题更新成功！'
     else
       render :edit
     end
-  
   end
 
   def destroy
@@ -46,11 +50,11 @@ class TopicsController < ApplicationController
 
   def refresh
     @topic.refresh_posts
-    repond_to do |format|
+    respond_to do |format|
       format.html { redirect_to @topic, notice: '话题帖子刷新成功！' }
+      format.turbo_stream # 使用 refresh.turbo_stream.erb 模板
       format.json { render json: { message: '话题帖子刷新成功！' } }
     end
-
   end
 
   private
@@ -60,6 +64,5 @@ class TopicsController < ApplicationController
 
   def topic_params
     params.require(:topic).permit(:name, :hashtag, :description)
-
   end
 end

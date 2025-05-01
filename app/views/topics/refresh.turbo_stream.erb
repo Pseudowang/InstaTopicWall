@@ -1,39 +1,7 @@
-<div class="container mx-auto px-4 py-8" data-controller="timer" data-timer-url-value="<%= refresh_topic_path(@topic) %>" data-timer-interval-value="60">
-  <div class="mb-8">
-    <div class="flex items-center justify-between">
-      <div>
-        <h1 class="text-3xl font-bold"><%= @topic.name %></h1>
-        <p class="text-lg text-gray-600">#<%= @topic.hashtag %></p>
-      </div>
-      
-      <div class="flex space-x-4">
-        <%= button_to "Refresh", refresh_topic_path(@topic), method: :post, 
-            class: "bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded", 
-            data: { timer_target: "button", action: "click->timer#manualRefresh" } %>
-        <%= link_to "Back to Topics", topics_path, class: "bg-gray-500 hover:bg-gray-700 text-white font-bold py-2 px-4 rounded" %>
-      </div>
-    </div>
-    
-    <% if @topic.description.present? %>
-      <p class="mt-4 text-gray-700"><%= @topic.description %></p>
-    <% end %>
-    
-    <div class="mt-4 text-sm text-gray-500">
-      <% if @topic.last_refreshed_at.present? %>
-        <p>Last refreshed: <span id="timer-last-refreshed" data-timer-target="lastRefreshed"><%= time_ago_in_words(@topic.last_refreshed_at) %> ago</span></p>
-      <% else %>
-        <p>Not refreshed yet</p>
-      <% end %>
-    </div>
-
-    <p class="mt-4 text-sm text-gray-500">
-      Auto-refreshing in <span data-timer-target="countdown">60</span> seconds...
-    </p>
-  </div>
-
+<%= turbo_stream.replace "posts" do %>
   <div id="posts" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
-    <% if @posts.any? %>
-      <% @posts.each do |post| %>
+    <% if @topic.posts.any? %>
+      <% @topic.posts.order(timestamp: :desc).each do |post| %>
         <div class="bg-white rounded-lg shadow-md overflow-hidden">
           <% if post.media_type == "VIDEO" %>
             <div class="relative pb-[100%]">
@@ -45,11 +13,10 @@
           <% else %>
             <div class="h-64 bg-gray-100 flex items-center justify-center">
               <% if post.media_url.present? %>
-                <img src="<%= proxy_image_path(url: URI.encode_www_form_component(post.media_url)) %>" 
+                <img src="<%= post.media_url %>" 
                      alt="Instagram post" 
-                     class="w-full h-full object-cover"
-                     crossorigin="anonymous"
-                     onerror="this.onerror=null; this.src='<%= post.media_url %>'; console.log('直接加载图片:', this.src);">
+                     class="w-full h-full object-cover" 
+                     onerror="this.onerror=null; console.log('图片加载失败:', this.src);">
               <% else %>
                 <div class="text-gray-400 text-center">
                   <i class="fas fa-image text-4xl mb-2"></i>
@@ -62,11 +29,10 @@
           <div class="p-4">
             <div class="flex items-center mb-3">
               <% if post.profile_picture_url.present? %>
-                <img src="<%= proxy_image_path(url: URI.encode_www_form_component(post.profile_picture_url)) %>" 
+                <img src="<%= post.profile_picture_url %>" 
                      alt="<%= post.username %>" 
                      class="w-8 h-8 rounded-full mr-2"
-                     crossorigin="anonymous"
-                     onerror="this.onerror=null; this.src='<%= post.profile_picture_url %>'; console.log('直接加载头像:', this.src);">
+                     onerror="this.onerror=null; console.log('头像加载失败:', this.src);">
               <% else %>
                 <div class="w-8 h-8 rounded-full bg-gray-200 mr-2 flex items-center justify-center">
                   <span class="text-gray-500 text-xs"><%= post.username[0]&.upcase %></span>
@@ -91,4 +57,14 @@
       </div>
     <% end %>
   </div>
-</div>
+<% end %>
+
+<%= turbo_stream.replace "timer-last-refreshed" do %>
+  <span id="timer-last-refreshed" data-controller="timer" data-timer-target="lastRefreshed">
+    <% if @topic.last_refreshed_at.present? %>
+      <%= time_ago_in_words(@topic.last_refreshed_at) %> ago
+    <% else %>
+      Just now
+    <% end %>
+  </span>
+<% end %>

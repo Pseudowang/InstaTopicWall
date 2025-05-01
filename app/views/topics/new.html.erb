@@ -1,2 +1,10 @@
-<h1>Topic#new</h1>
-<p>Find me in app/views/topic/new.html.erb</p>
+<div class="container mx-auto px-4 py-8">
+  <div class="max-w-2xl mx-auto">
+    <div class="flex items-center justify-between mb-8">
+      <h1 class="text-3xl font-bold">New Instagram Topic</h1>
+      <%= link_to "Back to Topics", topics_path, class: "text-indigo-600 hover:text-indigo-800" %>
+    </div>
+
+    <%= render 'form', topic: @topic, submit_text: "Create Topic" %>
+  </div>
+</div>

@@ -1,0 +1,50 @@
+<%= form_with(model: topic, local: true, class: "bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4") do |f| %>
+    <% if topic.errors.any? %>
+      <div class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded mb-4">
+        <h2 class="font-bold mb-2">
+          <%= pluralize(topic.errors.count, "error") %> prohibited this topic from being saved:
+        </h2>
+        <ul class="list-disc list-inside">
+          <% topic.errors.full_messages.each do |message| %>
+            <li><%= message %></li>
+          <% end %>
+        </ul>
+      </div>
+    <% end %>
+  
+    <div class="mb-6">
+      <%= f.label :name, class: "block text-gray-700 text-sm font-bold mb-2" %>
+      <%= f.text_field :name, class: "shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline", placeholder: "Enter topic name" %>
+      <p class="text-gray-600 text-xs italic mt-1">A descriptive name for your Instagram wall</p>
+    </div>
+  
+    <div class="mb-6">
+      <%= f.label :hashtag, class: "block text-gray-700 text-sm font-bold mb-2" %>
+      <div class="flex">
+        <span class="inline-flex items-center px-3 rounded-l border border-r-0 border-gray-300 bg-gray-50 text-gray-500 text-sm">
+          #
+        </span>
+        <%= f.text_field :hashtag, class: "shadow appearance-none border rounded-r w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline", placeholder: "Enter hashtag without #" %>
+      </div>
+      <p class="text-gray-600 text-xs italic mt-1">The Instagram hashtag to track (without #)</p>
+    </div>
+  
+    <div class="mb-6">
+      <%= f.label :description, class: "block text-gray-700 text-sm font-bold mb-2" %>
+      <%= f.text_area :description, rows: 4, class: "shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline", placeholder: "Enter topic description (optional)" %>
+      <p class="text-gray-600 text-xs italic mt-1">Optional description for this Instagram wall</p>
+    </div>
+  
+    <div class="flex items-center justify-between">
+      <%= f.submit submit_text, class: "bg-indigo-500 hover:bg-indigo-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline" %>
+      
+      <% if topic.persisted? %>
+        <div class="flex space-x-4">
+          <%= link_to "Cancel", topic_path(topic), class: "text-gray-600 hover:text-gray-800" %>
+          <%= button_to "Delete Topic", topic_path(topic), method: :delete, class: "text-red-600 hover:text-red-800", form: { data: { turbo_confirm: "Are you sure you want to delete this topic?" } } %>
+        </div>
+      <% else %>
+        <%= link_to "Cancel", topics_path, class: "text-gray-600 hover:text-gray-800" %>
+      <% end %>
+    </div>
+<% end %>

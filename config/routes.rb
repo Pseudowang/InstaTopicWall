@@ -9,6 +9,10 @@ Rails.application.routes.draw do
   # get "manifest" => "rails/pwa#manifest", as: :pwa_manifest
   # get "service-worker" => "rails/pwa#service_worker", as: :pwa_service_worker
 
+  # 图片代理路由
+  get "proxy_image", to: "proxy#image", as: :proxy_image
+  delete "proxy_image/clear_cache", to: "proxy#clear_cache", as: :clear_proxy_cache
+
   # Defines the root path route ("/")
   resources :topics do
     member do
