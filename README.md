@@ -35,3 +35,7 @@ rails s -b 0.0.0.0 # 仅启动Rails服务器
 
 #### 项目架构以及实现思路
 ![](https://wangzhrbuckets.s3.bitiful.net/picture/2025/05/ff6c964d47e4b04684532ce86d092e31.png)
+
+
+![Timeline 1](https://www.bilibili.com/video/BV1xWGBzeEeP)
+
