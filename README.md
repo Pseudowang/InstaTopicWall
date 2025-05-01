@@ -14,6 +14,7 @@ cd InstaTopicWall
 2. 安装依赖
 ```bash
 bundle install
+rails tailwindcss:install
 ```
 
 3. 设置数据库

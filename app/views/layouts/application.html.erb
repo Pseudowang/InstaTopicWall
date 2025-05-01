@@ -14,13 +14,8 @@
     <link rel="icon" href="/icon.svg" type="image/svg+xml">
     <link rel="apple-touch-icon" href="/icon.png">
     
-    <!-- 只保留一个 stylesheet_link_tag 引用 Tailwind -->
     <%= stylesheet_link_tag "tailwind", "data-turbo-track": "reload" %>
-    <%= stylesheet_link_tag "application", "data-turbo-track": "reload" %>
-    
-    <!-- 或者使用 CDN 作为临时解决方案 -->
-    <!-- <script src="https://cdn.tailwindcss.com"></script> -->
-    
+
     <%= javascript_importmap_tags %>
   </head>
 
