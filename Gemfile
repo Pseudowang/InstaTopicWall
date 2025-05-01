@@ -61,3 +61,6 @@ group :test do
   gem "capybara"
   gem "selenium-webdriver"
 end
+
+# 添加dotenv-rails 以便在开发和测试环境中加载环境变量
+gem 'dotenv-rails', groups: [:development, :test]
