@@ -137,7 +137,7 @@ class InstagramService
   # 生成模拟帖子数据，当API调用失败时使用
   def self.mock_posts(hashtag)
     Rails.logger.info("为标签 #{hashtag} 生成模拟帖子")
-    
+
     5.times.map do |i|
       {
         instagram_id: "mock_#{i}_#{Time.now.to_i}",

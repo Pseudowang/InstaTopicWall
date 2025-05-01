@@ -67,6 +67,9 @@ jobs:
       - name: Lint code for consistent style
         run: bin/rubocop -f github
 
+      - name: Lint and auto-fix code style issues
+        run: bin/rubocop -a -f github
+
   test:
     runs-on: ubuntu-latest
 
