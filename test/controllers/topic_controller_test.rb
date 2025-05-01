@@ -15,13 +15,14 @@ class TopicControllerTest < ActionDispatch::IntegrationTest
     get topic_edit_url
     assert_response :success
   end
+
   test "should get new" do
     get topic_new_url
     assert_response :success
   end
 
-  test "should get edit" do
-    get topic_edit_url
+  test "should get edit with valid parameters" do
+    get topic_edit_url, params: { id: 1 }
     assert_response :success
   end
 end
