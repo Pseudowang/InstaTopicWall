@@ -27,7 +27,7 @@ class InstagramService
 
       if response.is_a?(Net::HTTPSuccess)
         # 确保响应体使用 UTF-8 编码
-        response_body = response.body.force_encoding('UTF-8')
+        response_body = response.body.force_encoding("UTF-8")
         data = JSON.parse(response_body)
         Rails.logger.info("响应数据解析成功")
 
