@@ -6,7 +6,7 @@ export default class extends Controller {
   static targets = ["countdown", "button", "lastRefreshed"]
   static values = { 
     url: String,             // 刷新请求的URL
-    interval: { type: Number, default: 60 } // 倒计时秒数，默认60秒
+    interval: { type: Number, default: 120 } // 倒计时秒数，默认60秒
   }
 
   connect() {

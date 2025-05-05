@@ -15,6 +15,7 @@ class InstagramService
     https = Net::HTTP.new(url.host, url.port)
     https.use_ssl = true
     https.verify_mode = OpenSSL::SSL::VERIFY_PEER # 确保SSL证书验证
+    https.read_timeout = 120 # 设置读取超时为 120 秒
     request = Net::HTTP::Get.new(url)
 
     request["Authorization"] = "Bearer #{API_KEY}"
