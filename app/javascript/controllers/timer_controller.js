@@ -1,5 +1,4 @@
 import { Controller } from "@hotwired/stimulus"
-import * as Turbo from "@hotwired/turbo"
 
 // 倒计时和自动刷新控制器
 export default class extends Controller {
@@ -83,12 +82,11 @@ export default class extends Controller {
       this.buttonTarget.classList.add("opacity-50", "cursor-not-allowed")
     }
     
-    // 发送刷新请求
+    // 发送刷新请求并触发页面重新加载
     fetch(this.urlValue, {
       method: "POST",
       headers: {
-        "X-CSRF-Token": document.querySelector("meta[name='csrf-token']").content,
-        "Accept": "text/vnd.turbo-stream.html"
+        "X-CSRF-Token": document.querySelector("meta[name='csrf-token']").content
       },
       credentials: "same-origin"
     })
@@ -96,19 +94,14 @@ export default class extends Controller {
       if (!response.ok) {
         throw new Error(`HTTP error! Status: ${response.status}`)
       }
-      return response.text()
-    })
-    .then(html => {
-      // 处理 Turbo Stream 响应 (会自动处理)
-      Turbo.renderStreamMessage(html)
       
-      // 更新最后刷新时间（如果有目标元素）
-      if (this.hasLastRefreshedTarget) {
-        this.lastRefreshedTarget.textContent = "just now"
-      }
+      // 刷新整个页面而不是处理Turbo Stream
+      window.location.reload()
     })
     .catch(error => {
       console.error("Error refreshing content:", error)
+      // 出错时也可以选择刷新整个页面
+      window.location.reload()
     })
     .finally(() => {
       // 重新启用刷新按钮
