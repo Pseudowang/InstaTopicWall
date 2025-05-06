@@ -50,11 +50,11 @@ class TopicsController < ApplicationController
 
   def refresh
     @topic.refresh_posts
-    respond_to do |format|
-      format.html { redirect_to @topic, notice: "话题帖子刷新成功！" }
-      format.turbo_stream # 使用 refresh.turbo_stream.erb 模板
-      format.json { render json: { message: "话题帖子刷新成功！" } }
-    end
+    # respond_to do |format|
+    #   format.html { redirect_to @topic, notice: "话题帖子刷新成功！" }
+    #   format.turbo_stream # 使用 refresh.turbo_stream.erb 模板
+    #   format.json { render json: { message: "话题帖子刷新成功！" } }
+    # end
   end
 
   private
