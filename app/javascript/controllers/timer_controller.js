@@ -2,7 +2,7 @@ import { Controller } from "@hotwired/stimulus"
 
 // 倒计时和自动刷新控制器
 export default class extends Controller {
-  static targets = ["countdown", "button", "lastRefreshed"]
+  static targets = ["countdown", "button", "lastRefreshed", "toggleButton", "toggleLabel", "countdownContainer"]
   static values = { 
     url: String,             // 刷新请求的URL
     interval: { type: Number, default: 120 } // 倒计时秒数，默认60秒
@@ -16,8 +16,48 @@ export default class extends Controller {
       this.countdownTarget.textContent = this.intervalValue
     }
     
+    // 默认启用自动刷新
+    this.autoRefreshEnabled = true
+    
     // 开始倒计时
     this.startCountdown()
+  }
+  
+  // 切换自动刷新功能
+  toggleAutoRefresh() {
+    this.autoRefreshEnabled = !this.autoRefreshEnabled
+    
+    // 更新按钮文本状态
+    if (this.hasToggleLabelTarget) {
+      this.toggleLabelTarget.textContent = `Auto-refresh: ${this.autoRefreshEnabled ? 'ON' : 'OFF'}`
+    }
+    
+    // 更新按钮样式
+    if (this.hasToggleButtonTarget) {
+      if (this.autoRefreshEnabled) {
+        this.toggleButtonTarget.classList.remove('bg-gray-500', 'hover:bg-gray-600')
+        this.toggleButtonTarget.classList.add('bg-blue-500', 'hover:bg-blue-600')
+      } else {
+        this.toggleButtonTarget.classList.remove('bg-blue-500', 'hover:bg-blue-600')
+        this.toggleButtonTarget.classList.add('bg-gray-500', 'hover:bg-gray-600')
+      }
+    }
+    
+    // 显示或隐藏倒计时容器
+    if (this.hasCountdownContainerTarget) {
+      if (this.autoRefreshEnabled) {
+        this.countdownContainerTarget.classList.remove('hidden')
+      } else {
+        this.countdownContainerTarget.classList.add('hidden')
+      }
+    }
+    
+    // 如果启用了自动刷新，重新启动倒计时，否则清除定时器
+    if (this.autoRefreshEnabled) {
+      this.startCountdown()
+    } else if (this.countdownTimer) {
+      clearInterval(this.countdownTimer)
+    }
   }
 
   disconnect() {
@@ -38,6 +78,9 @@ export default class extends Controller {
     
     // 设置新的定时器
     this.countdownTimer = setInterval(() => {
+      // 如果自动刷新被禁用，不进行倒计时
+      if (!this.autoRefreshEnabled) return
+      
       seconds -= 1
       
       // 更新倒计时显示
@@ -66,7 +109,11 @@ export default class extends Controller {
     if (this.hasCountdownTarget) {
       this.countdownTarget.textContent = this.intervalValue
     }
-    this.startCountdown()
+    
+    // 只有当自动刷新启用时才重新开始倒计时
+    if (this.autoRefreshEnabled) {
+      this.startCountdown()
+    }
   }
 
   // 执行刷新
