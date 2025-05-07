@@ -67,6 +67,5 @@ class TopicsController < ApplicationController
   end
 
   def test
-
   end
 end
