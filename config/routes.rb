@@ -20,5 +20,6 @@ Rails.application.routes.draw do
     end
   end
 
+  get "test", to: "topics#test"
   root "topics#index"
 end

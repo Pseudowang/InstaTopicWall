@@ -65,4 +65,7 @@ class TopicsController < ApplicationController
   def topic_params
     params.require(:topic).permit(:name, :hashtag, :description)
   end
+
+  def test
+  end
 end

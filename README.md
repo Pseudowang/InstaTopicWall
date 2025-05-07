@@ -34,7 +34,6 @@ rails s -b 0.0.0.0 # 仅启动Rails服务器
 打开浏览器访问 `http://localhost:3000`
 
 #### 项目架构以及实现思路
-![](https://wangzhrbuckets.s3.bitiful.net/picture/2025/05/ff6c964d47e4b04684532ce86d092e31.png)
-
+![](https://wangzhrbuckets.s3.bitiful.net/picture/2025/05/9705e7bb56ead308d6337787b576b60b.png)
 
 

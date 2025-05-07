@@ -26,9 +26,14 @@
       <% end %>
     </div>
 
-    <p class="mt-4 text-sm text-gray-500">
-      Auto-refreshing in <span data-timer-target="countdown">120</span> seconds...
-    </p>
+    <div class="mt-4 flex items-center">
+      <button data-timer-target="toggleButton" data-action="click->timer#toggleAutoRefresh" class="mr-2 px-3 py-1 text-sm bg-blue-500 hover:bg-blue-600 text-white rounded-md">
+        <span data-timer-target="toggleLabel">Auto-refresh: ON</span>
+      </button>
+      <p class="text-sm text-gray-500" data-timer-target="countdownContainer">
+        Auto-refreshing in <span data-timer-target="countdown">120</span> seconds...
+      </p>
+    </div>
   </div>
 
   <div id="posts" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
