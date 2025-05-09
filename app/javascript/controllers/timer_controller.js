@@ -142,7 +142,6 @@ export default class extends Controller {
         throw new Error(`HTTP error! Status: ${response.status}`)
       }
       
-      // 刷新整个页面而不是处理Turbo Stream
       window.location.reload()
     })
     .catch(error => {

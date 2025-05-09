@@ -1,4 +1,4 @@
-class Topic < ApplicationRecord
+class Topic < ApplicationRecord # 将Topic 类转变为一个 ActiveRecord 模型
     validates :name, presence: true, uniqueness: true
     validates :hashtag, presence: true, uniqueness: true
 
@@ -20,11 +20,13 @@ class Topic < ApplicationRecord
     end
 
     private
-    def process_posts(posts_data)
+    def process_posts(posts_data) # 通过hash 判断帖子是否存在, 在Ruby 中，hash 是一种数据结构，用于存储键值对。它类似于 Python 中的字典
         posts_data.each do |post_data|
             if post_data[:instagram_id].present? # 修正方法名称
-                post_data[:id_prefile] ||= "ig_#{post_data[:instagram_id]}"
-                existing_post = posts.find_by(instagram_id: post_data[:instagram_id])
+                if !post_data[:id_prefile]
+                    post_data[:id_prefile] = "ig_#{post_data[:instagram_id]}"
+                end
+                existing_post = posts.find_by(instagram_id: post_data[:instagram_id]) # 通过instagram_id查找现有帖子
                 if existing_post
                     existing_post.update(post_data)
                 else

@@ -50,11 +50,7 @@ class TopicsController < ApplicationController
 
   def refresh
     @topic.refresh_posts
-    # respond_to do |format|
-    #   format.html { redirect_to @topic, notice: "话题帖子刷新成功！" }
-    #   format.turbo_stream # 使用 refresh.turbo_stream.erb 模板
-    #   format.json { render json: { message: "话题帖子刷新成功！" } }
-    # end
+    redirect_to @topic, notice: "话题刷新成功！"
   end
 
   private
@@ -63,7 +59,7 @@ class TopicsController < ApplicationController
   end
 
   def topic_params
-    params.require(:topic).permit(:name, :hashtag, :description)
+    params.require(:topic).permit(:name, :hashtag, :description) # strong parameters 只允许这些字段
   end
 
   def test
